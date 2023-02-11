@@ -2,11 +2,11 @@
   <div class="container">
     <form @submit.prevent="submitForm">
       <div class="form-group">
-        <label for="username">Username:</label>
+        <label for="usernames">Username:</label>
         <input
           type="text"
           class="form-control"
-          id="username"
+          id="usernames"
           v-model="username"
         />
       </div>
@@ -20,27 +20,59 @@
         />
       </div>
       <br>
-      <nuxt-link to="/"><button type="submit" class="btn btn-primary">Login</button></nuxt-link>
+        <button type="submit" class="btn btn-primary">Login</button>
       <br>
-      <nuxt-link to="signup" @click.prevent="toggleShowLogin"><button type="submit" class="btn btn-primary">signup</button></nuxt-link>
+      <nuxt-link to="signup" @click.prevent="toggleShowLogin">
+        <button type="submit" class="btn btn-primary">signup</button>
+      </nuxt-link>
     </form>
   </div>
 </template>
 
 <script>
+
+import axios from '@nuxtjs/axios';
+
 export default {
   data() {
     return {
-      username: "",
-      password: ""
+      username: '',
+      password: '',
     };
   },
   methods: {
-    submitForm() {
-      console.log(this.username, this.password);
-      // Add your authentication logic here
-    }
-  }
+    async submitForm() {
+      console.log(878889, { username: this.username, password: this.password });
+      let new_dict = { username: this.username, password: this.password };
+      console.log(12, new_dict);
+
+      try {
+        const response = await this.$axios.post('http://127.0.0.1:8000/login', new_dict);
+        console.log('4545', response.data);
+        console.log('4545', response.data.success);
+        if (response.data.success) {
+        console.log("login successful")
+        this.$notify({
+          group: 'notifications',
+          title: 'Success',
+          text: 'Login successful',
+          type: 'success'
+        });
+        } else {
+          console.log("login unsuccessful")
+          this.$notify({
+            group: 'notifications',
+            title: 'Error',
+            text: 'Login unsuccessful',
+            type: 'error'
+          });
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 };
 </script>
 
@@ -63,4 +95,3 @@ form {
   background-color: white;
 }
 </style>
-

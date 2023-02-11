@@ -23,6 +23,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/notification.js'
   ],
   
 
@@ -31,11 +32,36 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    'vue-notification/nuxt',
+    'vue-notification',
+    '@nuxtjs/vuetify',
+    '@nuxtjs/axios'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    'vue-notification/nuxt'
   ],
+
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    theme: {
+      dark: false,
+        themes: {
+          dark: {
+              primary: '#0D47A1',
+              accent: '#3E2723',
+              secondary: '#FFA000',
+              info: '#00B0FF',
+              warning: '#FFA000',
+              error: '#FF5722',
+              success: '#43A047'
+            }
+          }
+        }
+      },
+  
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -52,6 +78,10 @@ export default {
         component: '~/components/Signup.vue'
       }
     ]
-  }
+  },
 
-}
+  axios: {
+    baseURL: 'http://127.0.0.1:8000/'
+  },
+
+  }
